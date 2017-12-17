@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>1. Group select</h2>
     <date-picker inline v-model="date"
       :format="format"
       showTool
@@ -10,90 +11,64 @@
       :disabled="disabled"
       @selected="changeDate">
     </date-picker>
-    <br/>
+    <h2>2. Multiple select</h2>
     <date-picker clearable calendarButton showTool :height="35" @selected="changeDate" placeholder="Select Date" :format="format" v-model="date1"></date-picker>
-    <br/>
-    <date-picker placeholder="Select Date" clearable @selected="changeDate" v-model="date2"></date-picker>
-    <br/>
-    <div style="height: 200px">
-      <el-group-select v-model="selectedIds" :data="groups"></el-group-select>
-    </div>
-    <span class="sparkline" @click="onClick()">2 5 6 7 7 23 9</span>
-    <currency-input v-model="price"></currency-input>
-    {{price}}
-    <div id="output"></div>
-    <input type="file" accept="image/*" @change="fileinfo($event.target.files)"/>
-    <canvas id="cvs" width="600" height="300"></canvas>
-    <!-- <div id="droptarget"></div> -->
+    <h2>3. Singal Select</h2>
+    <date-picker placeholder="Select Date" :highlighted="highlighted" clearable @selected="changeDate" v-model="date2"></date-picker>
   </div>
 </template>
 
 <script>
-import { sparkLine, drawRect, drawLine, Barchart } from 'utils/canvas-helper';
-import { readFile } from 'utils/base';
-import imgSrc from 'app/assets/cat.jpeg';
-
+import DatePicker from 'vue-datepicker-freedom';
 export default {
+  components: {
+    DatePicker
+  },
   data() {
-    let self = this;
     return {
       date2: '',
-      date1: [new Date(2017, 11, 8).setHours(0, 0, 0, 0)],
-      date: [new Date(2017, 11, 8).setHours(0, 0, 0, 0)],
-      price: null,
-      groups: Array.apply(null, { length: 2 }).map((g, groupIndex) => {
-        return {
-          id: `group_${groupIndex + 1}`,
-          label: `分组${groupIndex + 1}`,
-          children: Array.apply(null, { length: 8 }).map((c, i) => {
-            return {
-              id: `option_${groupIndex + 1}_${i + 1}`,
-              label: `选项_${groupIndex + 1}_${i + 1}`
-            };
-          })
-        };
-      }),
-      selectedIds: [],
+      date1: [new Date(2017, 11, 8)],
+      date: [new Date(2017, 11, 8)],
       format: 'yyyy-MM-dd',
       dayGroups: [{
         type: 1,
-        class: 'picker-workday',
-        days: [new Date(2017, 11, 12).setHours(0, 0, 0, 0), new Date(2017, 11, 13).setHours(0, 0, 0, 0)]
+        class: 'picker-group1',
+        dates: [new Date(2017, 11, 12), new Date(2017, 11, 13)]
       }, {
         type: 2,
-        class: 'picker-weekend',
-        days: [new Date(2017, 11, 1).setHours(0, 0, 0, 0), new Date(2017, 11, 2).setHours(0, 0, 0, 0)]
+        class: 'picker-group2',
+        dates: [new Date(2017, 11, 1), new Date(2017, 11, 2)]
       }, {
         type: 3,
-        class: 'picker-holiday',
-        days: []
+        class: 'picker-group3',
+        dates: []
       }],
       sidebarOptions: {
         position: 'top',
         bars: [{
-          text: '设为工作日',
+          text: '分组一',
           style: 'color: red',
-          class: 'button-workday',
+          class: 'group-one',
           onClick(picker) {
             picker.setGroupOfCheckedDate(1);
           }
         }, {
-          text: '设为周末',
-          class: 'button-weekend',
+          text: '分组二',
+          class: 'group-two',
           onClick(picker) {
             picker.setGroupOfCheckedDate(2);
           }
         }, {
-          text: '设为长假',
-          class: 'button-holiday',
+          text: '分组三',
+          class: 'group-three',
           onClick(picker) {
             picker.setGroupOfCheckedDate(3);
           }
         }]
       },
       disabled: {
-        to: new Date(2017, 12, 20), // Disable all dates up to specific date
-        from: new Date(2016, 0, 26), // Disable all dates after specific date
+        to: new Date(2016, 0, 2), // Disable all dates up to specific date
+        from: new Date(2018, 0, 1), // Disable all dates after specific date
         days: [6, 0], // Disable Saturday's and Sunday's
         daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
         dates: [ // Disable an array of dates
@@ -114,6 +89,9 @@ export default {
             return true;
           }
         }
+      },
+      highlighted: {
+        days: [1, 4]
       }
     };
   },
@@ -123,59 +101,12 @@ export default {
     },
     changeDate(selected) {
       console.log('current date:', selected);
-    },
-    fileinfo(files) {
-      readFile(files[0]);
-    },
-    onClick() {
-      // wokerDemo();
-      console.log(this.date);
-      this.dayGroups[0].days.push(new Date(2017, 11, 30).setHours(0, 0, 0, 0));
-    },
-    extendArr(one, two) {
-      return one.concat(two).reduce((arr, val) => {
-        if (arr.indexOf(val) < 0) {
-          arr.push(val);
-        }
-        return arr;
-      }, []);
     }
-  },
-  mounted() {
-    // 折线
-    sparkLine();
-
-    let cvs = document.querySelector('#cvs');
-    let ctx = cvs.getContext('2d');
-    // let droptarget = document.querySelector('#droptarget');
-
-    // let barChart = new Barchart({
-    //   canvas: cvs,
-    //   data: [112, 62, 42],
-    //   lengend: {
-    //     names: ['a', 'b', 'c']
-    //   }
-    // });
-
-    // barChart.draw();
   }
 };
 </script>
 <style lang="scss" scoped>
-  .sparkline {
-    background-color: '#ddd';
-    color: red;
-  }
-  #droptarget {
-    border: 1px solid black;
-    width: 200px;
-    height: 200px;
-
-    &.active {
-      border: 2px dashed red;
-    }
-  }
-  /deep/ .picker-weekend:after {
+  /deep/ .picker-group2:after {
     background: #95e1ed;
     content: '';
     position: absolute;
@@ -185,7 +116,7 @@ export default {
     height: 10px;
     background: #95e1ed;
   }
-  /deep/ .picker-workday:after {
+  /deep/ .picker-group1:after {
     content: '';
     position: absolute;
     top: 0;
@@ -194,7 +125,7 @@ export default {
     height: 10px;
     background: #9ae39d;
   }
-  /deep/ .picker-holiday:after {
+  /deep/ .picker-group3:after {
     content: '';
     position: absolute;
     top: 0;

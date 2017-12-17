@@ -43,7 +43,8 @@
     "vue-moment": "^2.2.0",
     "vue-multiselect": "^2.0.6",
     "vue-router": "^3.0.1",
-    "vuedraggable": "^2.15.0"
+    "vuedraggable": "^2.15.0",
+    "vuejs-datepicker": "^0.9.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.85",
@@ -96,6 +97,7 @@
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
     "url-loader": "^0.5.8",
+    "vue-datepicker-freedom": "0.0.8",
     "vue-loader": "^13.5.0",
     "vue-markdown-loader": "^2.3.0",
     "vue-style-loader": "^3.0.0",
