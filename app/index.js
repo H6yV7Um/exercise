@@ -8,6 +8,8 @@ import LPDComponent from '@ele/lpd-component';
 import '@ele/lpd-component/lib/theme.min.css';
 import 'element-ui/lib/theme-default/index.css';
 
+import store from './store';
+
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(CurrencyInput);
@@ -20,5 +22,6 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app');

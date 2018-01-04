@@ -1,7 +1,13 @@
 import Index from './index';
 import MD from './markdown/demo.md';
+import JSX from './jsx/index';
 
 const routes = [
+  {
+    path: '/jsx',
+    component: JSX,
+    name: 'jsx'
+  },
   {
     path: '/index',
     component: Index,
