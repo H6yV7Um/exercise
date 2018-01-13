@@ -1,40 +1,32 @@
 <template>
-  <div>
-    <currency-input :customprop="abc" @customevent="(val) => {this.abc = val;}"></currency-input>{{ abc }}
-    <button @click="click">da</button>
+  <div style="position: relative">
+    <div style="height: 100%"></div>
   </div>
 </template>
 
 <script>
-import CurrencyInput from 'app/components/currency-input/src/index';
+class VNode {
+  constructor(nodeName, attributes, children) {
+    this.nodeName = nodeName;
+    this.attributes = attributes;
+    this.children = children;
+  }
+}
+
+function h(nodeName, attributes, ...args) {
+  let children = args.length ? [].concat(...args) : null;
+  return new VNode(nodeName, attributes, children);
+}
 
 export default {
-  components: {
-    CurrencyInput
-  },
-  data() {
-    return {
-      html: '',
-      abc: 333
-    };
-  },
-  methods: {
-    changedGroup(val) {
-      console.log(val);
-    },
-    changeDate(selected) {
-      console.log('current date:', selected);
-    },
-    click() {
-      this.abc = 'fff';
-      // 提交突变，commit mutation, 执行store中mutations突变对象中定义的突变方法
-      this.$store.commit('increment', {a: 1});
-    }
-  },
   mounted() {
-    console.log(this.$store.state);
+    console.log(h('div', {style: 'width: 100px'}, [
+      h('p', null, 'hello')
+    ]));
   }
 };
 </script>
-<style lang="scss" scoped>
+
+<style>
+
 </style>

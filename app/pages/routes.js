@@ -1,5 +1,5 @@
 import Index from './index';
-import MD from './markdown/demo.md';
+import MD from './markdown/datepicker-demo.md';
 import JSX from './jsx/index';
 
 const routes = [

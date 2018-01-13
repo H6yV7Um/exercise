@@ -40,7 +40,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(js|vue)$/,
+        test: /\.(js|vue|ts)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: [resolve('app'), resolve('test')],
@@ -62,6 +62,14 @@ module.exports = {
       {
         test: /\.coffee$/,
         loader: 'coffee-loader'
+      },
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
       },
       {
         test: /\.yaml$/,

@@ -1,8 +1,18 @@
 {
   "extends": "elemefe",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "experimentalDecorators": true
+    }
+  },
+  "parser": "babel-eslint",
   "plugins": [
     "vue"
   ],
+  "env": {
+    "es6": true
+  },
   "globals": {
     "Promise": true
   },
