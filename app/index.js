@@ -3,7 +3,7 @@ import Vue from 'vue';
 import App from './app';
 import VueRouter from 'vue-router';
 import routes from './pages/routes';
-import CurrencyInput from 'app/components/currency-input/index';
+import CurrencyInput from './components/currency-input/index';
 import ElementUI from 'element-ui';
 import LPDComponent from '@ele/lpd-component';
 import '@ele/lpd-component/lib/theme.min.css';

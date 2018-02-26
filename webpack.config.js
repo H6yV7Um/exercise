@@ -2,18 +2,18 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin'); // 自动生成index.html
 var CleanWebpackPlugin = require('clean-webpack-plugin'); // 清除指定目录文件
-var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+// var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');   // 从chunk中提取出*.css，移动到独立的css文件
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 console.log(path.resolve(__dirname, 'app'));
 
 module.exports = {
-  entry: {
+  entry: { // 入口文件
     app: './app/index.js',
     vendor: ['lodash']
   },
-  output: {
+  output: { // 配置输出bundles文件的位置
     filename: '[name].[hash].js',          // 输出文件名称
     chunkFilename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'), // 输出文件存放位置
@@ -26,7 +26,7 @@ module.exports = {
     publicPath: '/' // webpack-dev-server 访问的路径
   },
   resolve: {
-    // extensions: ['.js', '.json', '.css', '.vue'], // 使用的扩展名
+    extensions: ['.js', '.json', '.css', '.vue'], // 使用的扩展名
     alias: {  // 模块别名列表
       lib: 'app/lib' // just test
     },
@@ -34,9 +34,23 @@ module.exports = {
   },
   module: {
     rules: [
+      { // 让webpack去处理非js文件（loader被用于转换某些类型的模块，预处理）
+        test: /\.md$/, // 匹配应该被改loader进行转换的文件
+        loader: 'vue-markdown-loader',
+        exclude: /node_modules/,
+        options: {
+          breaks: true,
+          typographer: true
+        }
+      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
         exclude: /node_modules/
       },
       {
@@ -73,7 +87,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
+  plugins: [ // 执行范围更广泛的任务
     new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
@@ -86,7 +100,6 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({ // 提取公共脚本
       names: ['vendor', 'manifest'],
       minChunks: function (module, count) {
-        console.log(module.resource, count);
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&

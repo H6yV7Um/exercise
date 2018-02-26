@@ -1,21 +1,17 @@
-import Index from './index';
-import MD from './markdown/datepicker-demo.md';
-import JSX from './jsx/index';
-
 const routes = [
   {
     path: '/jsx',
-    component: JSX,
+    component: () => import('./jsx/index'),
     name: 'jsx'
   },
   {
     path: '/index',
-    component: Index,
+    component: () => import('./index'),
     name: 'index'
   },
   {
     path: '/markdown',
-    component: MD,
+    component: () => import('./markdown/datepicker-demo.md'),
     name: 'markdown-demo'
   },
   {

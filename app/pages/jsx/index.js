@@ -6,8 +6,10 @@ export default {
     };
   },
   render() {
-    return <div style="color: red">
-      hello world
-    </div>;
+    return (
+      <div style="color: red">
+        hello world
+      </div>
+    );
   }
 };
