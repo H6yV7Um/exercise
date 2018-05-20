@@ -10,6 +10,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 // 如果我们想将 webpack 打包成一个文件 css js 分离开，那我们需要这个插件
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 var env = config.build.env;
 
@@ -57,6 +58,10 @@ var webpackConfig = merge(baseWebpackConfig, {
         removeAttributeQuotes: true
       },
       chunksSortMode: 'dependency'
+    }),
+    new WorkboxPlugin({
+      clientsClaim: true,
+      skipWaiting: true
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

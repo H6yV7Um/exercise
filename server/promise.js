@@ -35,8 +35,10 @@ MyPromise.prototype.handle = function(handler) {
     }
     return;
   }
-  var ret;
   try {
+    if (handlerCallback instanceof MyPromise) {
+      handler.resolve(this._value);
+    }
     handler.resolve(handlerCallback(this._value));
   } catch (e) {
     handler.reject(e);
@@ -105,4 +107,23 @@ MyPromise.reject = function() {};
 MyPromise.all = function() {};
 MyPromise.race = function() {};
 
-export default MyPromise;
+function getUserId() {
+  return new MyPromise(function(resolve) {
+    setTimeout(() => {
+      resolve(1);
+    }, 2000);
+  });
+}
+
+function getUserId2() {
+  return new MyPromise(function(resolve) {
+    setTimeout(() => {
+      resolve(2);
+    }, 2000);
+  });
+}
+getUserId().then(getUserId2()).then(function(id) {
+  // 一些处理
+  console.log(id);
+  return 'ddd';
+}).then(val => console.log(val));

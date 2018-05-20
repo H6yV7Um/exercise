@@ -1,17 +1,24 @@
 <template>
   <div>
+    <p class="counter"></p>
     <div class="wrapper">
       <div class="left">f d d</div>
       <div class="right">fdsaf</div>
       <div class="center">fdsaf</div>
     </div>
-    <div class="cssmargin">
+    <!-- <div class="cssmargin">
       <span>hhfkdsahf</span>
       <span>hhfkdsahf</span>
       <p>hhfkdsahf</p>
       <div style="margin-top: 15px">
         <p style="margin-top: 15px;">hhfkdsahf</p>
       </div>
+    </div> -->
+    <br/>
+    <div class="container">
+      <div class="middle"><div class="inner">fdsaf</div></div>
+      <div class="left1">f d d</div>
+      <div class="right1">fdsaf</div>
     </div>
   </div>
 </template>
@@ -40,7 +47,7 @@ export default {
       h('p', null, 'hello')
     ]));
 
-    let promise = new MyPromise((resolve, reject) => {
+    let promise = new MyPromise((resolve) => {
       setTimeout(function() {
         resolve('you');
       }, 1000);
@@ -99,10 +106,60 @@ export default {
   width: 200px;
   height: 100px;
 }
+.left1,
+.middle,
+.right1 {
+  position: relative;
+  float: left;
+  min-height: 130px;
+}
+.container{
+  padding:0 220px 0 200px;
+  overflow: hidden;
+}
+.left1 {
+  margin-left: -100%;
+  left: -200px;
+  width: 200px;
+  background: red;
+}
+.right1 {
+  margin-left: -220px;
+  right: -220px;
+  width: 220px;
+  background: green;
+}
+.middle {
+  width: 100%;
+  background: blue;
+  word-break: break-all;
+}
+.inner {
+  margin: 0 220px;
+}
 .cssmargin p, span {
   border: 2px solid red;
   margin: 10px;
   padding: 10px;
 }
+ul {
+  font-size: 0;
+}
+ul li {
+  display: inline-block;
+  border: 1px solid black;
+}
 
+.counter {
+  counter-reset: showjoy 1;
+  counter-increment: showjoy;
+}
+.counter:before {
+  content: counter(showjoy);
+  counter-increment: showjoy;
+}
+.counter::after {
+  content: counter(showjoy);
+  counter-increment: showjoy;
+}
 </style>

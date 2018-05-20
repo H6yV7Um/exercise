@@ -10,6 +10,11 @@ const routes = [
     name: 'index'
   },
   {
+    path: '/acorn',
+    component: () => import('./acorn'),
+    name: 'acorn'
+  },
+  {
     path: '/markdown',
     component: () => import('./markdown/datepicker-demo.md'),
     name: 'markdown-demo'
